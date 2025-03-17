@@ -1,10 +1,7 @@
 import { createRoute, z } from "@hono/zod-openapi";
 import { app } from "../../index.js";
-import jwt from 'jsonwebtoken';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { firebase } from "../../firebase.js";
-
-const JWT_SECRET = process.env.JWT_SECRET || "super-secret-key"; // 🔴 Change ce secret dans les variables d'env !
 
 const route = createRoute({
     method: 'post',
@@ -49,7 +46,7 @@ const route = createRoute({
 const handler = async (c: any) => {
     const { email, password } = c.req.valid('json');
     const auth = getAuth(firebase);
-        
+
     return signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;            

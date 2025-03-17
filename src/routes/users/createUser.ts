@@ -1,6 +1,5 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { app } from '../../index.js'
-import bcrypt from 'bcrypt';
 
 const userSchema = z.object({
     name: z.string().min(1, "Le nom est requis").openapi({ example: "John Doe" }),

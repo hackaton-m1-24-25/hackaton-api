@@ -11,7 +11,7 @@ export function initSwagger() {
 
     app.get('/swagger', (c) => {
       return c.redirect('/api', 301)
-  })
+    })
     
     app.get(
       '/api',

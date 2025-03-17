@@ -1,18 +1,20 @@
 import { createRoute, z } from "@hono/zod-openapi";
 import { app } from "../../index.js";
-import { handleUserRoles, userResponseSchema } from "../../schema/userResponse.js";
+import { userResponseSchema } from "../../schema/userResponse.js";
 import { authMiddleware } from "../../middlewares/authMiddleware.js";
+import { auth } from "../../firebase.js";
+import { FirebaseAuthError } from "firebase-admin/auth";
 
 // Route GET /users/{id}
 const route = createRoute({
     method: 'get',
-    path: 'api/users/{id}',
+    path: 'api/users/{uid}',
     tags: ['Users'],
-    summary: 'Récupérer un utilisateur par GUID',
     middleware: [authMiddleware],
+    summary: 'Récupérer un utilisateur par UID',
     request: {
         params: z.object({
-            id: z.string().uuid().openapi({ example: "550e8400-e29b-41d4-a716-446655440000" }),
+            uid: z.string().openapi({ example: "vhv4ooglMrX2g96x8l4nkkDmPjh2" }),
         }),
     },
     responses: {
@@ -38,15 +40,25 @@ const route = createRoute({
 });
 
 const handler = async (c: any) => {
-    const { id } = c.req.valid('param');
+    const { uid } = c.req.valid('param');
 
-    return c.json({ message: "Utilisateur supprimé avec succès" }, 200);
+    try {
+        const user = await auth.getUser(uid)
+        return c.json(user, 200);
 
+    } catch (error) {
+        if (error instanceof FirebaseAuthError) {
+            const { message } = error
+            return c.json({ message }, 400);
+        }
+        return c.json(error, 500);
+    }
 }
 
-export const getUserRoute = () => {
-    app.openapi(
-        route,
-        handler
-    )
-}
+
+    export const getUserRoute = () => {
+        app.openapi(
+            route,
+            handler
+        )
+    }

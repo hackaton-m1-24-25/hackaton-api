@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
 import { config } from 'dotenv';
+import admin from "firebase-admin";
+import { cert } from "firebase-admin/app";
+
 config();
 
 const firebaseConfig = {
@@ -16,6 +18,17 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const firebase = initializeApp(firebaseConfig);
-const db = getFirestore(firebase);
 
-export { firebase, db }
+admin.initializeApp({
+  credential: cert({
+    projectId: process.env.projectId,
+    clientEmail: process.env.client_email,
+    privateKey: process.env.private_key
+  }),
+  databaseURL: "https://hackaton-f06d6-default-rtdb.europe-west1.firebasedatabase.app"
+});
+
+const db = admin.firestore();
+const auth = admin.auth();
+
+export { firebase, db, auth }

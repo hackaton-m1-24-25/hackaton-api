@@ -5,21 +5,21 @@ import { authMiddleware } from "../../middlewares/authMiddleware.js";
 import { auth } from "../../firebase.js";
 import { FirebaseAuthError } from "firebase-admin/auth";
 
-// Route GET /users/{id}
+// Route GET /devices/{id}
 const route = createRoute({
   method: "get",
-  path: "api/users/{uid}",
-  tags: ["Users"],
+  path: "api/devices/{id}",
+  tags: ["Devices"],
   middleware: [authMiddleware],
-  summary: "Récupérer un utilisateur par UID",
+  summary: "Récupérer un appareil par ID",
   request: {
     params: z.object({
-      uid: z.string().openapi({ example: "vhv4ooglMrX2g96x8l4nkkDmPjh2" }),
+      id: z.string().openapi({ example: "1" }),
     }),
   },
   responses: {
     200: {
-      description: "Utilisateur trouvé",
+      description: "Appareil trouvé",
       content: {
         "application/json": {
           schema: userResponseSchema,
@@ -27,11 +27,11 @@ const route = createRoute({
       },
     },
     404: {
-      description: "Utilisateur non trouvé",
+      description: "Appareil non trouvé",
       content: {
         "application/json": {
           schema: z.object({
-            error: z.string().openapi({ example: "Utilisateur non trouvé" }),
+            error: z.string().openapi({ example: "Appareil non trouvé" }),
           }),
         },
       },
@@ -40,10 +40,10 @@ const route = createRoute({
 });
 
 const handler = async (c: any) => {
-  const { uid } = c.req.valid("param");
+  const { id } = c.req.valid("param");
 
   try {
-    const user = await auth.getUser(uid);
+    const user = await auth.getUser(id);
     return c.json(user, 200);
   } catch (error) {
     if (error instanceof FirebaseAuthError) {
@@ -54,6 +54,6 @@ const handler = async (c: any) => {
   }
 };
 
-export const getUserRoute = () => {
+export const getDeviceRoute = () => {
   app.openapi(route, handler);
 };

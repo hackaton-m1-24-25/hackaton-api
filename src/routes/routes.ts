@@ -1,23 +1,21 @@
 import { getLoginRoute } from "./auth/login.js"
-import { createUserRoute } from "./users/createUser.js"
-import { deleteUserRoute } from "./users/deleteUser.js"
 import { getUserRoute } from "./users/getUser.js"
 import { getMeRoute } from "./auth/me.js"
-import { updateUserRoute } from "./users/updateUser.js"
-import { updateUserPassword } from "./users/updateUserPassword.js"
 import { getRefreshTokenRoute } from "./auth/refresh.js"
 import { patchDeviceRoute } from "./devices/updateDevice.js"
 import { getDeviceRoute } from "./devices/getDevice.js"
+import { createDeviceRoute } from "./devices/createDevice.js"
+import { getAllDeviceRoute } from "./devices/getAllDevices.js"
+import { deleteDeviceRoute } from "./devices/deleteDevice.js"
 
 export const registerRoutes = () => {
     getUserRoute()
-    createUserRoute()
-    updateUserPassword()
-    updateUserRoute()
-    deleteUserRoute()
     getMeRoute()
     getLoginRoute()
     getRefreshTokenRoute()
     patchDeviceRoute()
     getDeviceRoute()
+    createDeviceRoute()
+    getAllDeviceRoute()
+    deleteDeviceRoute()
 }

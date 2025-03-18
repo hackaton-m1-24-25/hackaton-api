@@ -45,7 +45,7 @@ La gestion des devices ce fait par Azure IoT Hub ou par nôtre api qui integre l
 
 <img width="1457" alt="image" src="https://github.com/user-attachments/assets/01282aca-2f9d-43d0-88ea-7a5e5e6fd74f" />
 
-Il est possible d'utilisé Azure IoT Hub Device Provisioning Service (DPS) pour connecter un device fictif tournant en local sur une machine:
+Il est possible d'utiliser Azure IoT Hub Device Provisioning Service (DPS) pour connecter un device fictif tournant en local sur une machine:
 
 documentation: https://learn.microsoft.com/en-gb/azure/iot-dps/quick-create-simulated-device-symm-key?pivots=programming-language-nodejs
 

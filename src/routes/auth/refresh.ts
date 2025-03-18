@@ -1,7 +1,5 @@
 import { createRoute, z } from "@hono/zod-openapi";
 import { app } from "../../index.js";
-import { getAuth, getIdToken } from "firebase/auth"
-import { auth, firebase } from "../../firebase.js";
 
 const route = createRoute({
     method: 'get',

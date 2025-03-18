@@ -1,7 +1,6 @@
 import { createRoute, z } from "@hono/zod-openapi";
 import { app } from "../../index.js";
 import { authMiddleware } from "../../middlewares/authMiddleware.js";
-import { handleUserRoles } from "../../schema/userResponse.js";
 
 const route = createRoute({
     method: 'delete',

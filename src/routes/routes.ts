@@ -6,6 +6,7 @@ import { getMeRoute } from "./auth/me.js";
 import { updateUserRoute } from "./users/updateUser.js";
 import { updateUserPassword } from "./users/updateUserPassword.js";
 import { createDeviceRoutes } from "./devices/devices.js";
+import { getRefreshTokenRoute } from "./auth/refresh.js";
 
 export const registerRoutes = () => {
   getUserRoute();
@@ -16,4 +17,5 @@ export const registerRoutes = () => {
   getMeRoute();
   getLoginRoute();
   createDeviceRoutes();
+  getRefreshTokenRoute();
 };

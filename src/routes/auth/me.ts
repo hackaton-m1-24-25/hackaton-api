@@ -1,7 +1,8 @@
 import { createRoute, z } from "@hono/zod-openapi";
 import { app } from "../../index.js";
 import { authMiddleware } from "../../middlewares/authMiddleware.js";
-import { handleUserRoles, userResponseSchema } from "../../schema/userResponse.js";
+import { auth } from "../../firebase.js";
+import { FirebaseAuthError } from "firebase-admin/auth";
 
 const route = createRoute({
   method: 'get',
@@ -34,9 +35,19 @@ const route = createRoute({
 });
 
 const handler = async (c: any) => {    
-  const userId = c.get('userId');  
-  
-  return c.json("error", 400);
+  const userUid = c.get('userUid');
+  try {
+    const user = await auth.getUser(userUid)
+    return c.json(user, 200);
+
+  } catch (error) {
+    if(error instanceof FirebaseAuthError) {
+      const { message } = error
+      return c.json({ message }, 400);
+    }
+
+    return c.json(error, 500);
+  }
 }
 
 export const getMeRoute = () => app.openapi(route, handler)

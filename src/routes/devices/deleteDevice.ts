@@ -23,7 +23,7 @@ const route =
         },
         responses: {
             201: {
-                description: 'Device supprimer',
+                description: 'Device supprimé',
                 content: {
                     'application/json': {
                         schema: z.object({

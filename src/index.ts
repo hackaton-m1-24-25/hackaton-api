@@ -4,10 +4,17 @@ import { initSwagger } from './routes/swagger.js'
 import { registerRoutes } from './routes/routes.js'
 import { logger } from 'hono/logger'
 import { auth } from './firebase.js'
+import { cors } from 'hono/cors'
 
 export const app = new OpenAPIHono()
-app.use(logger())
 initSwagger()
+app.use(logger())
+app.use(
+  '/api/*',
+  cors({
+    origin: ['http://localhost:8081'],
+  })
+)
 registerRoutes()
 serve({
   fetch: app.fetch,
